@@ -32,7 +32,22 @@ defmodule ToyRobot.OtpRobot do
     place()
   end
 
-  def init(current_state) do
-    {:ok, current_state}
+  defp get_current_state() do
+    case Agent.get(:robot_state_repository, & &1) do
+      nil ->
+        {:ok, state} = ToyRobot.place()
+        state
+
+      state ->
+        state
+    end
+  end
+
+  def init(_) do
+    {:ok, get_current_state()}
+  end
+
+  def terminate(_reason, current_state) do
+    Agent.update(:robot_state_repository, fn _ -> current_state end)
   end
 end
