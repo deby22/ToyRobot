@@ -3,16 +3,7 @@ defmodule ToyRobot do
   Documentation for `ToyRobot`.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ToyRobot.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def place do
+    %ToyRobot.Position{}
   end
 end
