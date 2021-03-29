@@ -14,6 +14,10 @@ defmodule ToyRobot do
     {:ok, %ToyRobot.Position{}}
   end
 
+  def failure do
+    raise "Connection has been lost"
+  end
+
   def place(x, y, _facing) when x < 0 or y < 0 or x > @table_top_y or y > @table_top_y do
     {:failure, "Invalid position"}
   end

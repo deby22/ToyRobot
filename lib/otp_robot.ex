@@ -6,6 +6,10 @@ defmodule ToyRobot.OtpRobot do
     {:reply, report, current_state}
   end
 
+  def handle_cast(:failure, _current_state) do
+    {:noreply, ToyRobot.failure()}
+  end
+
   def handle_cast(:move, current_state) do
     {:noreply, ToyRobot.move(current_state)}
   end
@@ -15,9 +19,20 @@ defmodule ToyRobot.OtpRobot do
     GenServer.start_link(__MODULE__, state, name: __MODULE__)
   end
 
-  def report, do: GenServer.call(__MODULE__, :report)
+  def trigger_failure do
+    GenServer.cast(__MODULE__, :failure)
+  end
 
+  def report, do: GenServer.call(__MODULE__, :report)
   def move, do: GenServer.cast(__MODULE__, :move)
   def left, do: GenServer.cast(__MODULE__, :left)
   def right, do: GenServer.cast(__MODULE__, :right)
+
+  def start_link(_opts) do
+    place()
+  end
+
+  def init(current_state) do
+    {:ok, current_state}
+  end
 end
