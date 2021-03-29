@@ -92,4 +92,40 @@ defmodule ToyRobotTest do
 
     assert position == {3, 4, :west}
   end
+
+  test "prevent the robot to fall" do
+    position =
+      ToyRobot.place(4, 4, :north)
+      |> ToyRobot.move()
+      |> ToyRobot.report()
+
+    assert position == {4, 4, :north}
+  end
+
+  test "prevent the robot to fall walking on south" do
+    position =
+      ToyRobot.place(-4, -4, :south)
+      |> ToyRobot.move()
+      |> ToyRobot.report()
+
+    assert position == {-4, -4, :south}
+  end
+
+  test "prevent the robot to fall walking on east" do
+    position =
+      ToyRobot.place(4, 4, :east)
+      |> ToyRobot.move()
+      |> ToyRobot.report()
+
+    assert position == {4, 4, :east}
+  end
+
+  test "prevent the robot to fall walking on west" do
+    position =
+      ToyRobot.place(-4, -4, :west)
+      |> ToyRobot.move()
+      |> ToyRobot.report()
+
+    assert position == {-4, -4, :west}
+  end
 end
