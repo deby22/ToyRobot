@@ -1,21 +1,29 @@
-defmodule ToyRobot.OtpRobot do
+defmodule ToyRobot.Server do
   use GenServer
 
   def handle_call(:report, _from, current_state) do
-    report = ToyRobot.report(current_state)
+    report = ToyRobot.ToyRobot.report(current_state)
     {:reply, report, current_state}
   end
 
   def handle_cast(:failure, _current_state) do
-    {:noreply, ToyRobot.failure()}
+    {:noreply, ToyRobot.ToyRobot.failure()}
   end
 
   def handle_cast(:move, current_state) do
-    {:noreply, ToyRobot.move(current_state)}
+    {:noreply, ToyRobot.ToyRobot.move(current_state)}
+  end
+
+  def handle_cast(:left, current_state) do
+    {:noreply, ToyRobot.ToyRobot.left(current_state)}
+  end
+
+  def handle_cast(:right, current_state) do
+    {:noreply, ToyRobot.ToyRobot.right(current_state)}
   end
 
   def place do
-    {:ok, state} = ToyRobot.place()
+    {:ok, state} = ToyRobot.ToyRobot.place()
     GenServer.start_link(__MODULE__, state, name: __MODULE__)
   end
 
@@ -35,7 +43,7 @@ defmodule ToyRobot.OtpRobot do
   defp get_current_state() do
     case Agent.get(:robot_state_repository, & &1) do
       nil ->
-        {:ok, state} = ToyRobot.place()
+        {:ok, state} = ToyRobot.ToyRobot.place()
         state
 
       state ->
